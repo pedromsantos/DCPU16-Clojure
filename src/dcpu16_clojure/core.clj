@@ -13,10 +13,10 @@
                  :open-bracket #"^[\[\(]",
                  :plus #"^\+"'
                  :register #"\b(((?i)a)|((?i)b)|((?i)c)|((?i)x)|((?i)y)|((?i)z)|((?i)i)|((?i)j)|((?i)pop)|((?i)push)|((?i)peek)|((?i)pc)|((?i)sp)|((?i)o))\b",
-                 :string #"?""(""|[^""])*""",
+                 :string #"\"(\"|[^\"])*\"",
                  :whitespace #"^(\r\n|\s+)"
-      })
-
+              })
+ 
 (re-seq (matchers :close-bracket) "] ")
 (re-seq (matchers :close-bracket) ") ")
 (re-seq (matchers :comma) ", ")
@@ -34,5 +34,5 @@
 (re-seq (matchers :register) "A ")
 (re-seq (matchers :register) "x ")
 (re-seq (matchers :register) "J ")
-(re-seq (matchers :string) ""label" ")
+(re-seq (matchers :string) "\"label\" ")
 
