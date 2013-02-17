@@ -1,5 +1,5 @@
 (ns dcpu16-clojure.core)
-(req str)
+	(:gen class)
 
 (def re-close-bracket #"[\]\)]")
 (def re-comma #",")
@@ -13,31 +13,31 @@
 (def re-plus #"\+")
 (def re-register #"a|b|c|x|y|z|i|j|pop|push|peek|pc|sp|o")
 (def re-string #"\"(\"|[^\"])*\"")
-(def re-whitespace #"(\r\n|\s+)")
+(def re-whitespace #"\r\n|\s+")
 
-(defn match? [re-str word] (re-find (re-pattern (str "^" re-str)) word)) 
-(defn tok-type [[tok re-str] word] (when (match? re-str word) tok))
+;(defn match? [re-str word] (re-find (re-pattern (str "^(?i)" re-str)) word)) 
+;(defn tok-type [[tok re-str] word] (when (match? re-str word) [tok (match? re-str word)]))
 
-(match? re-comma ",")
-(tok-type [:comma re-comma] ",")
+(match? re-instruction "set a")
+;(tok-type [:instruction re-instruction] "set")
 
-(def tok-types [
-                 [:closebracket re-close-bracket]
-                 [:coma re-comma]
-                 [:comment re-comment]
-                 [:decimal re-decimal]
-                 [:hexadecimal re-hexadecimal]
-                 [:instruction re-instruction]
-                 [:openbracket re-open-bracket]
-                 [:plus re-plus]
-                 [:register re-register]
-                 [:labelref re-label-ref]
-                 [:label re-label]
-                 [:string re-string]
-                 [:whitespace re-whitespace]])
+;(def tok-types [
+;                 [:closebracket re-close-bracket]
+;                 [:coma re-comma]
+;                 [:comment re-comment]
+;                 [:decimal re-decimal]
+;                 [:hexadecimal re-hexadecimal]
+;                 [:instruction re-instruction]
+;                 [:openbracket re-open-bracket]
+;                 [:plus re-plus]
+;                 [:register re-register]
+;                 [:labelref re-label-ref]
+;                 [:label re-label]
+;                 [:string re-string]
+;                 [:whitespace re-whitespace]])
 
-(some #(match? % "a") tok-types)
-(some #(tok-type % "a") tok-types)
+;(some #(match? % "a") tok-types)
+;(some #(tok-type % "a") tok-types)
 
 (defn token [word]
   (let [tok-types [
@@ -55,11 +55,23 @@
                  [:string re-string]
                  [:whitespace re-whitespace]]
         match?   (fn [re-str word]
-                   (re-find (re-pattern (str "^" re-str)) word))
+                   (re-find (re-pattern (str "^(?i)" re-str)) word))
         tok-type (fn [[tok re-str]]
-                   (when (match? re-str word) tok))]
-    {(some tok-type tok-types) word}))
+                   (let [content (match? re-str word)]
+                   (when content [tok content])))]
+    (some tok-type tok-types)))
 
-(token "a")
+(defn consume-word [line]
+  (let [[tok-id content] (token line)]
+  	{[tok-id content] (subs line (count content) (count line))}
+))
+
+(defn tokenize-line [line]
+	(consume-word line)
+)
+
+;(token "a")
+;(consume-word "Set a,10"))
+
 
 
