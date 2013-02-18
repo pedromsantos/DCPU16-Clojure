@@ -15,30 +15,6 @@
 (def re-string #"\"(\"|[^\"])*\"")
 (def re-whitespace #"\r\n|\s+")
 
-;(defn match? [re-str word] (re-find (re-pattern (str "^(?i)" re-str)) word)) 
-;(defn tok-type [[tok re-str] word] (when (match? re-str word) [tok (match? re-str word)]))
-
-(match? re-instruction "set a")
-;(tok-type [:instruction re-instruction] "set")
-
-;(def tok-types [
-;                 [:closebracket re-close-bracket]
-;                 [:coma re-comma]
-;                 [:comment re-comment]
-;                 [:decimal re-decimal]
-;                 [:hexadecimal re-hexadecimal]
-;                 [:instruction re-instruction]
-;                 [:openbracket re-open-bracket]
-;                 [:plus re-plus]
-;                 [:register re-register]
-;                 [:labelref re-label-ref]
-;                 [:label re-label]
-;                 [:string re-string]
-;                 [:whitespace re-whitespace]])
-
-;(some #(match? % "a") tok-types)
-;(some #(tok-type % "a") tok-types)
-
 (defn token [word]
   (let [tok-types [
                  [:closebracket re-close-bracket]
@@ -69,9 +45,3 @@
 (defn tokenize-line [line]
 	(consume-word line)
 )
-
-;(token "a")
-;(consume-word "Set a,10"))
-
-
-
