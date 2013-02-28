@@ -37,11 +37,23 @@
                    (when content [tok content])))]
     (some tok-type tok-types)))
 
-(defn consume-word [line]
-  (let [[tok-id content] (token line)]
-  	{[tok-id content] (subs line (count content) (count line))}
-))
+(defn consume [word]
+  (let [[tok-id content] (token word)]
+    [(subs word (count content) (count word)) [tok-id content]])
+)
 
 (defn tokenize-line [line]
-	(consume-word line)
-)
+  (let [lexed-tokens []]    
+    (loop [line-to-lex line]
+      (let [[remaining-line & tokens] (consume line-to-lex)]
+        (into lexed-tokens tokens)
+        	(cond (> 0 (count remaining-line))
+                (recur (remaining-line))
+                )
+        )
+      )
+    )
+  )
+  
+
+(tokenize-line "set a, 10")
