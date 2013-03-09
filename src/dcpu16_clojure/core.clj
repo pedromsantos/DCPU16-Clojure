@@ -42,18 +42,16 @@
     [(subs word (count content) (count word)) [tok-id content]])
 )
 
-(defn tokenize-line [line]
-  (let [lexed-tokens []]    
-    (loop [line-to-lex line]
-      (let [[remaining-line & tokens] (consume line-to-lex)]
-        (into lexed-tokens tokens)
-        	(cond (> 0 (count remaining-line))
-                (recur (remaining-line))
-                )
-        )
-      )
+
+(defn tokenize-line [line]    
+  (let [[remaining-line & tokens] (consume line)]
+    ( cond 
+     (> (count remaining-line) 0)
+       (into [] (concat tokens (tokenize-line remaining-line)))
+     :else 
+       tokens
     )
   )
-  
+)
 
 (tokenize-line "set a, 10")
