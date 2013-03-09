@@ -13,10 +13,11 @@
 (def re-plus #"\+")
 (def re-register #"a|b|c|x|y|z|i|j|pop|push|peek|pc|sp|o")
 (def re-string #"\"(\"|[^\"])*\"")
-(def re-whitespace #"\r\n|\s+")
+(def re-whitespace #"\s+")
 
 (defn token [word]
   (let [tok-types [
+                   [:whitespace re-whitespace]
                    [:closebracket re-close-bracket]
                    [:coma re-comma]
                    [:comment re-comment]
@@ -25,12 +26,11 @@
                    [:instruction re-instruction]
                    [:openbracket re-open-bracket]
                    [:plus re-plus]
-                   [:whitespace re-whitespace]
                    [:register re-register]
                    [:labelref re-label-ref]
                    [:label re-label]
-                   [:string re-string]
-                  ]
+                 [:string re-string]
+                 ]
         match?   (fn [re-str word]
                    (re-find (re-pattern (str "^(?i)" re-str)) word))
         tok-type (fn [[tok re-str]]
