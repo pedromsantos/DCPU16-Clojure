@@ -17,19 +17,20 @@
 
 (defn token [word]
   (let [tok-types [
-                 [:closebracket re-close-bracket]
-                 [:coma re-comma]
-                 [:comment re-comment]
-                 [:decimal re-decimal]
-                 [:hexadecimal re-hexadecimal]
-                 [:instruction re-instruction]
-                 [:openbracket re-open-bracket]
-                 [:plus re-plus]
-                 [:register re-register]
-                 [:labelref re-label-ref]
-                 [:label re-label]
-                 [:string re-string]
-                 [:whitespace re-whitespace]]
+                   [:closebracket re-close-bracket]
+                   [:coma re-comma]
+                   [:comment re-comment]
+                   [:hexadecimal re-hexadecimal]
+                   [:decimal re-decimal]
+                   [:instruction re-instruction]
+                   [:openbracket re-open-bracket]
+                   [:plus re-plus]
+                   [:whitespace re-whitespace]
+                   [:register re-register]
+                   [:labelref re-label-ref]
+                   [:label re-label]
+                   [:string re-string]
+                  ]
         match?   (fn [re-str word]
                    (re-find (re-pattern (str "^(?i)" re-str)) word))
         tok-type (fn [[tok re-str]]
@@ -41,7 +42,6 @@
   (let [[tok-id content] (token word)]
     [(subs word (count content) (count word)) [tok-id content]])
 )
-
 
 (defn tokenize-line [line]    
   (let [[remaining-line & tokens] (consume line)]
@@ -55,3 +55,5 @@
 )
 
 (tokenize-line "set a, 10")
+
+(tokenize-line "set i, 0x20")
