@@ -1,6 +1,8 @@
 (ns dcpu16-clojure.core)
 	(:gen class)
 
+(require ['clojure.string :as 'str])
+  
 (def re-close-bracket #"[\]\)]")
 (def re-comma #",")
 (def re-comment #";.*$")
@@ -54,6 +56,20 @@
   )
 )
 
+(defn tokenize [lines]
+  (for [l lines
+        t [(tokenize-line l)]
+        :when (seq t)]
+    t))
+
+(defn lex [file]
+  (tokenize (str/split-lines (slurp file)))
+)
+
 (tokenize-line "set a, 10")
 
 (tokenize-line "set i, 0x20")
+(tokenize ["set a, 10" "set i, 0x30"])
+
+(lex "/home/pedro/src/github/DCPU16-Clojure/src/dcpu16_clojure/hello.dasm16")
+

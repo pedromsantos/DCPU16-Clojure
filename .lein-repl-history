@@ -164,3 +164,9 @@ ll
 (tokenize-line "Set a, 0x10")
 (require 'dcpu16_clojure.core :reload)
 (tokenize-line "Set a, 0x10")
+(load core.clj)
+(load "core.clj")
+(load "core.clj")#
+(load "core.clj")
+(load-file "core.clj")
+(load "core.clj")
