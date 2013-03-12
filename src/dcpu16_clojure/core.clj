@@ -2,7 +2,7 @@
 	(:gen class)
 
 (require ['clojure.string :as 'str])
-  
+
 (def re-close-bracket #"[\]\)]")
 (def re-comma #",")
 (def re-comment #";.*$")
@@ -31,7 +31,7 @@
                    [:register re-register]
                    [:labelref re-label-ref]
                    [:label re-label]
-                 [:string re-string]
+                   [:string re-string]
                  ]
         match?   (fn [re-str word]
                    (re-find (re-pattern (str "^(?i)" re-str)) word))
@@ -71,5 +71,5 @@
 (tokenize-line "set i, 0x20")
 (tokenize ["set a, 10" "set i, 0x30"])
 
-(lex "/home/pedro/src/github/DCPU16-Clojure/src/dcpu16_clojure/hello.dasm16")
+;(lex "/home/pedro/src/github/DCPU16-Clojure/src/dcpu16_clojure/hello.dasm16")
 

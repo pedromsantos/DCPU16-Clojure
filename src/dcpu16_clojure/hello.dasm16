@@ -12,4 +12,4 @@
   
 :data        dat "Hello world!", 0                ; Zero terminated string
 
-:end         sub PC, 0                            ; Freeze the CPU forever</pre></body></html>
+:end         sub PC, 0                            ; Freeze the CPU forever
